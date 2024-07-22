@@ -1,6 +1,3 @@
-Here's a README.md file in Markdown format, explaining how to use the package with detailed examples for each entity and the various methods provided:
-
-```markdown
 # Studizz API Package for Laravel
 
 This package provides a convenient way to interact with the Studizz API in Laravel applications.
