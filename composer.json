@@ -2,6 +2,7 @@
   "name": "amphibee/studizz",
   "description": "A Laravel package to interact with the Studizz API",
   "type": "library",
+  "license": "MIT",
   "require": {
     "php": "^7.4|^8.0",
     "guzzlehttp/guzzle": "^7.0",
