@@ -11,8 +11,8 @@ class ContactDto implements Arrayable
 {
     public ?string $id;
     public ?string $title;
-    public string $firstname;
-    public string $lastname;
+    public ?string $firstname;
+    public ?string $lastname;
     public string $email;
     public ?string $phone;
     public ?string $address1;
@@ -78,8 +78,8 @@ class ContactDto implements Arrayable
     {
         $this->id = $data['id'] ?? null;
         $this->title = $data['title'] ?? null;
-        $this->firstname = $data['firstname'];
-        $this->lastname = $data['lastname'];
+        $this->firstname = $data['firstname'] ?? null;
+        $this->lastname = $data['lastname'] ?? null;
         $this->email = $data['email'];
         $this->phone = $data['phone'] ?? null;
         $this->address1 = $data['address1'] ?? null;
