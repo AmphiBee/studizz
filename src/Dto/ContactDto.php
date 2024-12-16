@@ -73,6 +73,7 @@ class ContactDto implements Arrayable
     public ?array $documentsCollection;
     public ?array $itemsCatalog;
     public ?bool $archived;
+    public ?array $evenement;
 
     public function __construct(array $data)
     {
@@ -140,6 +141,7 @@ class ContactDto implements Arrayable
         $this->documentsCollection = $data['documentsCollection'] ?? null;
         $this->itemsCatalog = $data['itemsCatalog'] ?? null;
         $this->archived = $data['archived'] ?? null;
+        $this->evenement = $data['evenement'] ?? null;
     }
 
     public function toArray()
@@ -209,6 +211,7 @@ class ContactDto implements Arrayable
             'documentsCollection' => $this->documentsCollection,
             'itemsCatalog' => $this->itemsCatalog,
             'archived' => $this->archived,
+            'evenement' => $this->evenement,
         ];
     }
 }
