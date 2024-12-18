@@ -6,12 +6,12 @@ namespace AmphiBee\Studizz\Services;
 
 use AmphiBee\Studizz\Contracts\StudizzApiClientInterface;
 use AmphiBee\Studizz\Dto\CampusDto;
-use AmphiBee\Studizz\Dto\FormationDto;
 use Illuminate\Support\Collection;
 
 class CampusService
 {
     private StudizzApiClientInterface $client;
+    private mixed $rawResponse = null;
 
     public function __construct(StudizzApiClientInterface $client)
     {
@@ -25,10 +25,20 @@ class CampusService
      */
     public function getAll(): Collection
     {
-        $response = $this->client->get('campus');
+        $this->rawResponse = $this->client->get('campus');
 
-        return collect($response)->map(function ($formation) {
+        return collect($this->rawResponse)->map(function ($formation) {
             return new CampusDto($formation);
         });
+    }
+
+    /**
+     * Retourne la dernière réponse brute de l'API.
+     *
+     * @return mixed La réponse brute de la dernière requête ou null si aucune requête n'a été effectuée
+     */
+    public function getRawResponse(): mixed
+    {
+        return $this->rawResponse;
     }
 }

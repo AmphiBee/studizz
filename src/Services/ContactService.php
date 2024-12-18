@@ -10,6 +10,7 @@ use AmphiBee\Studizz\Dto\ContactDto;
 class ContactService
 {
     private StudizzApiClientInterface $client;
+    private mixed $rawResponse = null;
 
     public function __construct(StudizzApiClientInterface $client)
     {
@@ -24,9 +25,9 @@ class ContactService
      */
     public function create(ContactDto $contactDto): ContactDto
     {
-        $response = $this->client->post('contacts', $contactDto->toArray());
+        $this->rawResponse = $this->client->post('contacts', $contactDto->toArray());
 
-        return new ContactDto($response);
+        return new ContactDto($this->rawResponse);
     }
 
     /**
@@ -36,6 +37,17 @@ class ContactService
      */
     public function getFields(): array
     {
-        return $this->client->get('contacts/fields');
+        $this->rawResponse = $this->client->get('contacts/fields');
+        return $this->rawResponse;
+    }
+
+    /**
+     * Retourne la dernière réponse brute de l'API.
+     *
+     * @return mixed La réponse brute de la dernière requête ou null si aucune requête n'a été effectuée
+     */
+    public function getRawResponse(): mixed
+    {
+        return $this->rawResponse;
     }
 }

@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 class FormationService
 {
     private StudizzApiClientInterface $client;
+    private mixed $rawResponse = null;
 
     public function __construct(StudizzApiClientInterface $client)
     {
@@ -24,10 +25,20 @@ class FormationService
      */
     public function getAll(): Collection
     {
-        $response = $this->client->get('formations');
+        $this->rawResponse = $this->client->get('formations');
 
-        return collect($response)->map(function ($formation) {
+        return collect($this->rawResponse)->map(function ($formation) {
             return new FormationDto($formation);
         });
+    }
+
+    /**
+     * Retourne la dernière réponse brute de l'API.
+     *
+     * @return mixed La réponse brute de la dernière requête ou null si aucune requête n'a été effectuée
+     */
+    public function getRawResponse(): mixed
+    {
+        return $this->rawResponse;
     }
 }
