@@ -27,7 +27,59 @@ STUDIZZ_BASE_URL=https://sandbox.studizz.fr/api
 
 ## Usage
 
-This package provides two main services: `ContactService` and `FormationService`. You can access these services through the `Studizz` facade.
+This package provides several services: `ContactService`, `FormationService`, and `CampusService`. You can access these services through their respective facades.
+
+### Debugging and Logging
+
+Each service provides a `getRawResponse()` method that returns the raw API response for debugging purposes:
+
+```php
+use AmphiBee\Studizz\Facades\Contact;
+use Illuminate\Support\Facades\Log;
+
+try {
+    $contactData = [
+        'firstname' => 'John',
+        'lastname' => 'Doe',
+        // ... autres données
+    ];
+    
+    $contactDto = new ContactDto($contactData);
+    $newContact = Contact::create($contactDto);
+    
+    // Log the raw response
+    Log::channel('api')->info('Studizz API Response', [
+        'response' => Contact::getRawResponse()
+    ]);
+    
+} catch (\Exception $e) {
+    Log::channel('api')->error('Studizz API Error', [
+        'message' => $e->getMessage(),
+        'trace' => $e->getTraceAsString()
+    ]);
+}
+```
+
+To enable API logging, add this to your `config/logging.php`:
+
+```php
+'channels' => [
+    // ... autres canaux
+    
+    'api' => [
+        'driver' => 'daily',
+        'path' => storage_path('logs/api.log'),
+        'level' => env('LOG_LEVEL', 'debug'),
+        'days' => 14,
+    ],
+],
+```
+
+The logs will be stored in `storage/logs/api.log` with this format:
+```log
+[2024-03-14 10:30:00] local.INFO: Studizz API - Données d'entrée {"data":{"firstname":"John","lastname":"Doe",...}}
+[2024-03-14 10:30:01] local.INFO: Studizz API - Réponse {"response":{"id":"123",...}}
+```
 
 ### Contacts
 
