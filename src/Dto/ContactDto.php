@@ -79,6 +79,9 @@ class ContactDto implements Arrayable
     public ?bool $archived;
     public ?array $evenement;
     public string|array|null $formationVisee;
+    public ?string $utm_source;
+    public ?string $utm_medium;
+    public ?string $utm_campaign;
 
     public function __construct(array $data)
     {
