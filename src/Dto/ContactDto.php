@@ -82,6 +82,11 @@ class ContactDto implements Arrayable
     public ?string $utm_source;
     public ?string $utm_medium;
     public ?string $utm_campaign;
+    public ?string $ad_click_id_tiktok;
+    public ?string $ad_click_id_snapchat;
+    public ?string $ad_click_id_meta;
+    public ?string $ad_click_id_linkedin;
+    public ?string $ad_click_id_google;
 
     public function __construct(array $data)
     {
