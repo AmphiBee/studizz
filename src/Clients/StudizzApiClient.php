@@ -66,7 +66,7 @@ class StudizzApiClient implements StudizzApiClientInterface
     {
         $response = $this->request('POST', $endpoint, $data);
 
-        return $response->getStatusCode() === 200 ? $response->json()['data'] : null;
+        return $response->json();
     }
 
     /**

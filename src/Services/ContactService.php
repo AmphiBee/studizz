@@ -23,11 +23,15 @@ class ContactService
      * @param ContactDto $contactDto The ContactDto object containing the contact details.
      * @return ContactDto The created contact represented as a ContactDto object.
      */
-    public function create(ContactDto $contactDto): ContactDto
+    public function create(ContactDto $contactDto): ContactDto|array
     {
         $this->rawResponse = $this->client->post('contacts', $contactDto->toArray());
 
-        return new ContactDto($this->rawResponse);
+        if ($this->rawResponse['code'] === 200) {
+            return new ContactDto($this->rawResponse['data']);
+        } else {
+            return $this->rawResponse;
+        }
     }
 
     /**
