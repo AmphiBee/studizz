@@ -4,6 +4,7 @@ namespace AmphiBee\Studizz\Clients;
 use AmphiBee\Studizz\Contracts\StudizzApiClientInterface;
 use AmphiBee\Studizz\Exceptions\StudizzException;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Client for interacting with the Studizz API.
@@ -87,7 +88,7 @@ class StudizzApiClient implements StudizzApiClientInterface
         ])->$method("{$this->baseUrl}/{$endpoint}", $data);
 
         if ($response->failed()) {
-            throw new StudizzException("API request failed: {$response->status()} - {$response->body()}");
+            Log::channel('studizz')->error("API request failed: {$response->status()} - {$response->body()}");
         }
 
         return $response;
