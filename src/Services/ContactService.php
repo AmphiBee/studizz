@@ -39,7 +39,7 @@ class ContactService
      *
      * @return array An array containing the available fields for contacts.
      */
-    public function getFields(): array
+    public function getFields(): ?array
     {
         $this->rawResponse = $this->client->get('contacts/fields');
         return $this->rawResponse;
