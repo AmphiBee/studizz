@@ -87,6 +87,9 @@ class ContactDto implements Arrayable
     public ?string $ad_click_id_meta;
     public ?string $ad_click_id_linkedin;
     public ?string $ad_click_id_google;
+    public ?string $nom_parent_;
+    public ?string $prenom_parent_;
+    public ?string $email_parent_;
 
     public function __construct(array $data)
     {
