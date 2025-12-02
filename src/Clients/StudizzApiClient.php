@@ -91,12 +91,11 @@ class StudizzApiClient implements StudizzApiClientInterface
     private function request(string $method, string $endpoint, array $data = [])
     {
         try {
-            $response = Http::retry(3, 100)
-            ->timeout(5)
-            ->withHeaders([
-                'x-api-key' => $this->apiKey,
-                'Content-Type' => 'application/json',
-            ])->$method("{$this->baseUrl}/{$endpoint}", $data);
+            $response = Http::timeout(5)
+                ->withHeaders([
+                    'x-api-key' => $this->apiKey,
+                    'Content-Type' => 'application/json',
+                ])->$method("{$this->baseUrl}/{$endpoint}", $data);
 
             if ($response->failed()) {
                 Log::channel('studizz')->error("API request failed: {$response->status()} - {$response->body()}");
