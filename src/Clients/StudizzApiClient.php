@@ -51,6 +51,10 @@ class StudizzApiClient implements StudizzApiClientInterface
     {
         $response = $this->request('GET', $endpoint, $params);
 
+        if ($response === null || $response->failed()) {
+            return null;
+        }
+
         return $response['code'] === 200 ? $response['data'] : null;
     }
 
@@ -67,6 +71,10 @@ class StudizzApiClient implements StudizzApiClientInterface
     {
         $response = $this->request('POST', $endpoint, $data);
 
+        if ($response === null || $response->failed()) {
+            return collect([]);
+        }
+
         return $response->json();
     }
 
@@ -82,15 +90,29 @@ class StudizzApiClient implements StudizzApiClientInterface
      */
     private function request(string $method, string $endpoint, array $data = [])
     {
-        $response = Http::withHeaders([
-            'x-api-key' => $this->apiKey,
-            'Content-Type' => 'application/json',
-        ])->$method("{$this->baseUrl}/{$endpoint}", $data);
+        try {
+            $response = Http::retry(3, 100)
+            ->timeout(5)
+            ->withHeaders([
+                'x-api-key' => $this->apiKey,
+                'Content-Type' => 'application/json',
+            ])->$method("{$this->baseUrl}/{$endpoint}", $data);
 
-        if ($response->failed()) {
-            Log::channel('studizz')->error("API request failed: {$response->status()} - {$response->body()}");
+            if ($response->failed()) {
+                Log::channel('studizz')->error("API request failed: {$response->status()} - {$response->body()}");
+            }
+
+            return $response;
+
+        } catch (\Illuminate\Http\Client\ConnectionException $e) {
+            Log::channel('studizz')->error("API connection timeout: " . $e->getMessage());
+            return null;
+        } catch (\Illuminate\Http\Client\RequestException $e) {
+            Log::channel('studizz')->error("API request exception: " . $e->getMessage());
+            return null;
+        } catch (\Exception $e) {
+            Log::channel('studizz')->error("Unexpected API error: " . $e->getMessage());
+            return null;
         }
-
-        return $response;
     }
 }
