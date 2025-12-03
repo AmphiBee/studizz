@@ -91,7 +91,7 @@ class StudizzApiClient implements StudizzApiClientInterface
     private function request(string $method, string $endpoint, array $data = [])
     {
         try {
-            $response = Http::timeout(5)
+            $response = Http::timeout(10)
                 ->withHeaders([
                     'x-api-key' => $this->apiKey,
                     'Content-Type' => 'application/json',
