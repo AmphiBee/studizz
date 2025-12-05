@@ -6,10 +6,10 @@
   "require": {
     "php": "^7.4|^8.0",
     "guzzlehttp/guzzle": "^7.0",
-    "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
-    "illuminate/container": "^8.0|^9.0|^10.0|^11.0",
-    "illuminate/contracts": "^8.0|^9.0|^10.0|^11.0",
-    "illuminate/http": "^8.0|^9.0|^10.0|^11.0"
+    "illuminate/support": "12.41.1",
+    "illuminate/container": "12.41.1",
+    "illuminate/contracts": "12.41.1",
+    "illuminate/http": "12.41.1"
   },
   "autoload": {
     "psr-4": {
